@@ -1,0 +1,7 @@
+tensorflow-gpu
+numpy
+opencv-python
+flask
+python-socketio
+python-dotenv
+eventlet
