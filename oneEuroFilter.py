@@ -8,7 +8,7 @@ def smoothing_factor(t_e, cutoff):
 def exponential_smoothing(a, x, x_prev):
     return a * x + (1 - a) * x_prev
 
-class OneEuroFilter:
+class OneEuroFilter :
     def __init__(self, 
                 t0, 
                 x0,  

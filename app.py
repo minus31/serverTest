@@ -18,16 +18,28 @@ cnt = 0
 def on_connect(sid, env):
     print('connected')
     # print(f"#######Connetion : {sid} ############")
-    sio.emit('successConnect', {'msg':"Start Camera!"}, skip_sid=True)
+    sio.emit('successConnect', {"data" : "send me camera data"})#, skip_sid=True)
+
+@sio.on('sendCameraInfo')
+def on_sendCameraInfo(sid, data):
+    if data : 
+        print('camera info ', data)
+
+        camera = {
+            'ax' : data["width"],
+            'ay' : data["width"],
+            'px' : data["width"]/2,
+            'py' : data["height"]/2
+            }
+        sio.emit('recvCameraMat', camera)
+    else:
+        print("No camera info")
 
 @sio.on('sendImage')
 def getEvent(sid, data):
     print(" I ve sent result")
-    # tVec_L = []
-    # tVec_R = []
     L_KP = {"m0": {"x":0.01,"y":0.01,"z":0.01, "w":0.01}, "m1" : {"x":0.01,"y":0.01,"z":0.01, "w":0.01}, "m2" : {"x":0.01,"y":0.01,"z":0.01, "w":0.01}}
     R_KP = {"m0": {"x":0.01,"y":0.01,"z":0.01, "w":0.01}, "m1" : {"x":0.01,"y":0.01,"z":0.01, "w":0.01}, "m2" : {"x":0.01,"y":0.01,"z":0.01, "w":0.01}}
-
     L_render = 0.
     R_render = 0.
 
@@ -40,6 +52,7 @@ def getEvent(sid, data):
         h   = data["height"]
         # tVec_L, tVec_R, L_render, R_render = infer_and_estimation(img, (h, w))
         L_KP, R_KP, L_render, R_render = infer_and_estimation(img, (h, w))
+
         result = {
             "left" : {
                 "kp" : {k : {k2:v2 for k2, v2 in zip(["x", "y", "z", "w"], v)} for k, v  in zip(["m0", "m1", "m2"], L_KP)},
@@ -50,18 +63,6 @@ def getEvent(sid, data):
                 "render" : bool(R_render > 0.22)
                 },
             }
-        # result = {
-        #     "left" : {
-        #         "position" : {k : v[0] for k, v  in zip(["x", "y", "z"], L_tvec)},
-        #         "rotation" : {k : {k2:v2 for k2, v2 in zip(["x", "y", "z"], v)} for k, v  in zip(["m0", "m1", "m2"], L_rM)},
-        #         "render" : bool(L_render > 0.22)
-        #         },
-        #     "right" : {
-        #         "position" : {k : v[0] for k, v  in zip(["x", "y", "z"], R_tvec)}, 
-        #         "rotation" : {k : {k2:v2 for k2, v2 in zip(["x", "y", "z"], v)} for k, v  in zip(["m0", "m1", "m2"], R_rM)},
-        #         "render" : bool(R_render > 0.22)
-        #         },
-        #     }
 
     else: 
         result = {
@@ -75,16 +76,7 @@ def getEvent(sid, data):
                     },
             }
 
-
-    # result = {
-    #         "Lvec" : tVec_L.tolist(), 
-    #         "Rvec" : tVec_R.tolist(),
-    #         "Lren" : int(L_render > 0.22),
-    #         "Rren" : int(R_render > 0.22)
-    #         }
-
     # print(result)
-
     sio.emit("recvTransform", result)
     print(" I ve sent result")
 
