@@ -19,4 +19,5 @@ def infer_and_estimation(img, cameraInfo):
     landmarks = result[0][0]
     renderOnOff = result[2][0]
     L_KP, R_KP = get_T_vector(parse_result(landmarks, cameraInfo), cameraInfo)
+    
     return L_KP, R_KP, renderOnOff[0], renderOnOff[1]
