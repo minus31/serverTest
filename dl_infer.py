@@ -3,8 +3,16 @@ import cv2
 import base64
 import tensorflow as tf
 from dl_utils import *
+# from cpp_infer import *
 
 model = tf.keras.models.load_model("./0191_0.97_withGraph.h5")
+
+# def infer_and_estimation(img, cameraInfo):
+#     img = parse_image(img, shape=(224,224))
+#     result = prediction(img)
+#     L_KP, R_KP = get_T_vector(parse_result(result[1], cameraInfo), cameraInfo)
+#     return L_KP, R_KP, result[0][0], result[0][1]
+
 def infer_and_estimation(img, cameraInfo):
     img = parse_image(img, shape=(224,224))[np.newaxis, :]
     result = model.predict(img)

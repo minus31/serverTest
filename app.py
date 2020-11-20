@@ -8,11 +8,10 @@ import cv2
 from dl_infer import infer_and_estimation
 
 import time
+import math
 
 sio = socketio.Server()
 app = Flask(__name__)
-
-cnt = 0
 
 @sio.on('connect')
 def on_connect(sid, env):
@@ -47,7 +46,9 @@ def getEvent(sid, data):
         imgbyte = base64.b64decode(data["image"])
         nparr = np.fromstring(imgbyte, np.uint8)
         img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)#[:,:,::-1]
-        # cv2.imwrite("./test.png", img)
+
+        cv2.imwrite("./test.png", img)
+
         w   = data["width"]
         h   = data["height"]
         # tVec_L, tVec_R, L_render, R_render = infer_and_estimation(img, (h, w))
@@ -76,8 +77,8 @@ def getEvent(sid, data):
                     },
             }
 
-    # print(result)
     sio.emit("recvTransform", result)
+
     print(" I ve sent result")
 
 if __name__ == '__main__':

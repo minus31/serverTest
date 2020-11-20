@@ -45,8 +45,9 @@ def parse_result(kpts, shape):
 
 def parse_vertex(vertex):
     xyz = vertex.split(" ")[1:]
-    scale = 1
-    res = [np.float(xyz[0]) * scale, np.float(xyz[1]) * scale, np.float(xyz[2]) * scale]
+    # scale = 1
+    # res = [np.float(xyz[0]) * scale, np.float(xyz[1]) * scale, np.float(xyz[2]) * scale]
+    res = [np.float(xyz[0]), np.float(xyz[1]), np.float(xyz[2])]
     return res
 
 def get_T_vector(keypoints, cameraInfo):
@@ -71,14 +72,14 @@ def get_T_vector(keypoints, cameraInfo):
     R_keypoint_vertex = np.array(list(map(parse_vertex, R_vertexes[vertex_number_])))
 
     focal_length = w
-
     center = (w/2, h/2)
 
-    camera_matrix = np.array([[focal_length, 0, center[0]],
-                              [0, focal_length, center[1]],
-                              [0, 0, 1]], dtype=np.float32)
+    camera_matrix = np.array([[focal_length, 0,            center[0]],
+                              [0,            focal_length, center[1]],
+                              [0,            0,            1]], 
+                              dtype=np.float32)
     dist_coeffs = np.zeros((1,4))
-    
+
     _, L_rvec, L_tvec = cv2.solvePnP(L_keypoint_vertex, keypoints[:13][using_idxes], camera_matrix, dist_coeffs, flags=cv2.SOLVEPNP_ITERATIVE)
     _, R_rvec, R_tvec = cv2.solvePnP(R_keypoint_vertex, keypoints[13:][using_idxes], camera_matrix, dist_coeffs, flags=cv2.SOLVEPNP_ITERATIVE)
 
@@ -93,7 +94,7 @@ def get_T_vector(keypoints, cameraInfo):
     print("L_P : ", L_P)
     print("R_P : ", R_P)
 
-    # L_KP = camera_matrix @ L_P
-    # R_KP = camera_matrix @ R_P
+    #L_KP = camera_matrix @ L_P
+    #R_KP = camera_matrix @ R_P
     
     return L_P, R_P
