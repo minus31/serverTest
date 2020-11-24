@@ -1,7 +1,8 @@
-tensorflow-gpu
+tensorflow
 numpy
 opencv-python
 flask
 python-socketio
 python-dotenv
 eventlet
+Cython

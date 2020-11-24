@@ -91,8 +91,8 @@ def get_T_vector(keypoints, cameraInfo):
     L_P = np.hstack([L_rotM, L_tvec])
     R_P = np.hstack([R_rotM, R_tvec])
 
-    print("L_P : ", L_P)
-    print("R_P : ", R_P)
+    # print("L_P : ", L_P)
+    # print("R_P : ", R_P)
 
     #L_KP = camera_matrix @ L_P
     #R_KP = camera_matrix @ R_P
