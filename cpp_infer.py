@@ -4,7 +4,7 @@ from oneEuroFilter import *
 min_cutoff = 0.1
 beta = 0.11
 
-footdetector = pyFootDetector(model_path="./pyfootdet/model", isFrozen=False, isEncrypted=False)
+footdetector = pyFootDetector(model_path="./pyfootdet/model/foot_model_encrypted.pb")
 
 def infer_and_estimation(img, cameraInfo, prevInfo=None):
 
