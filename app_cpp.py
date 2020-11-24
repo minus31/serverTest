@@ -8,6 +8,7 @@ import cv2
 from cpp_infer import infer_and_estimation
 import time
 import math
+from dl_utils import parse_image
 
 sio = socketio.Server()
 app = Flask(__name__)
@@ -45,15 +46,15 @@ def getEvent(sid, data):
         imgbyte = base64.b64decode(data["image"])
         nparr = np.fromstring(imgbyte, np.uint8)
         img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)[:,:,::-1]
+        img_parsed = parse_image(img)
 
-        cv2.imwrite("./test.png", img)
-
+        # cv2.imwrite("./test.png", img)
         w   = data["width"]
         h   = data["height"]
 
         # prev_info = data["data_info"]
         # tVec_L, tVec_R, L_render, R_render = infer_and_estimation(img, (h, w))
-        L_KP, R_KP, L_render, R_render = infer_and_estimation(img, (h, w))
+        L_KP, R_KP, L_render, R_render = infer_and_estimation(img_parsed, (h, w))
         # L_KP, R_KP, L_render, R_render = infer_and_estimation(img, (h, w), prev_info)
 
         result = {
