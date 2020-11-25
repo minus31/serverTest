@@ -60,8 +60,8 @@ def getEvent(sid, data):
         w   = data["width"]
         h   = data["height"]
 
-        prevLeft  = False
-        prevRight = False
+        prevLeft  = None
+        prevRight = None
 
         if data["left"]["render"]:
             prevLeft  = parse_KP(data["left"])
