@@ -34,6 +34,14 @@ def on_sendCameraInfo(sid, data):
     else:
         print("No camera info")
 
+def parse_KP(data):
+    result = np.empty((3, 4))
+    for i, m in enumerate(["m0", "m1", "m2"]):
+        for j, x in enumerate(["x", "y", "z", "w"]):
+            result[i][j] = data[m][x]
+
+    return result
+
 @sio.on('sendImage')
 def getEvent(sid, data):
     print(" I ve sent result")
@@ -52,10 +60,17 @@ def getEvent(sid, data):
         w   = data["width"]
         h   = data["height"]
 
-        # prev_info = data["data_info"]
-        # tVec_L, tVec_R, L_render, R_render = infer_and_estimation(img, (h, w))
-        L_KP, R_KP, L_render, R_render = infer_and_estimation(img_parsed, (h, w))
-        # L_KP, R_KP, L_render, R_render = infer_and_estimation(img, (h, w), prev_info)
+        prevLeft  = False
+        prevRight = False
+
+        if data["left"]["render"]:
+            prevLeft  = parse_KP(data["left"]["kp"])
+
+        if data["right"]["render"]:
+            prevRight = parse_KP(data["right"]["kp"])
+
+        prev_info = [prevLeft, prevRight]
+        L_KP, R_KP, L_render, R_render = infer_and_estimation(img_parsed, (h, w), prev_info)
 
         result = {
             "left" : {
