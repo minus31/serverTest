@@ -69,14 +69,14 @@ def getEvent(sid, data):
         if data["right"]["render"]:
             prevRight = parse_KP(data["right"])
 
-        print(prevLeft)
-        print(prevRight)
+        print("prevLKP", prevLeft)
+        print("prevRKP", prevRight)
 
         prev_info = [prevLeft, prevRight]
         L_KP, R_KP, L_render, R_render = infer_and_estimation(img_parsed, (h, w), prev_info)
 
-        print(L_KP)
-        print(R_KP)
+        print("KPL", L_KP)
+        print("KPR", R_KP)
 
         result = {
             "left" : {
