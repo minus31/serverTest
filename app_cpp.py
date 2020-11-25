@@ -35,7 +35,7 @@ def on_sendCameraInfo(sid, data):
         print("No camera info")
 
 def parse_KP(data):
-    result = np.empty((3, 4))
+    result = np.ones((3, 4))
     for i, m in enumerate(["m0", "m1", "m2"]):
         for j, x in enumerate(["x", "y", "z", "w"]):
             result[i][j] = data[m][x]
@@ -60,8 +60,8 @@ def getEvent(sid, data):
         w   = data["width"]
         h   = data["height"]
 
-        prevLeft  = None
-        prevRight = None
+        prevLeft  = "None"
+        prevRight = "None"
 
         if data["left"]["render"]:
             prevLeft  = parse_KP(data["left"])
