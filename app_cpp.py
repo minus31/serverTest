@@ -100,7 +100,7 @@ def getEvent(sid, data):
                     },
             }
 
-    print("KPL", result['right'])
+    print("KPR", result['right'])
 
     sio.emit("recvTransform", result)
 
