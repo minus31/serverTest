@@ -77,9 +77,6 @@ def getEvent(sid, data):
         prev_info = [prevLeft, prevRight]
         L_KP, R_KP, L_render, R_render = infer_and_estimation(img_parsed, (h, w), prev_info)
 
-        print("KPL", L_KP)
-        print("KPR", R_KP)
-
         result = {
             "left" : {
                 "kp" : {k : {k2:v2 for k2, v2 in zip(["x", "y", "z", "w"], v)} for k, v  in zip(["m0", "m1", "m2"], L_KP)},
@@ -102,6 +99,8 @@ def getEvent(sid, data):
                     "render" : False
                     },
             }
+
+    print("KPL", result['right'])
 
     sio.emit("recvTransform", result)
 
