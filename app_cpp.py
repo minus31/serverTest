@@ -53,7 +53,7 @@ def getEvent(sid, data):
     if data:
         imgbyte = base64.b64decode(data["image"])
         nparr = np.fromstring(imgbyte, np.uint8)
-        img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)#[:,:,::-1]
+        img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)[:,:,::-1]
         img_parsed = parse_image(img, shape=(224,224))
 
         # cv2.imwrite("./test.png", img)
