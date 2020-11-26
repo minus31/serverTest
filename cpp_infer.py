@@ -1,7 +1,7 @@
 from pyfootdet import pyFootDetector
 from oneEuroFilter import *
 
-min_cutoff = 1
+min_cutoff = 10
 beta = 100
 
 footdetector = pyFootDetector(model_path="./pyfootdet/model/foot_model_encrypted.pb")
