@@ -8,11 +8,12 @@ def smoothing_factor(t_e, cutoff):
 def exponential_smoothing(a, x, x_prev):
     return a * x + (1 - a) * x_prev
 
-def filter(x_0, x_1, min_cutoff=1000, beta=0.001, d_cutoff=1.0):
-    t_e = 1
-    a_d = smoothing_factor(t_e, d_cutoff)
+def filter(x_0, x_1, min_cutoff=10, beta=0.1, d_cutoff=1.0):
+    t_e = 1.0
+    # a_d = smoothing_factor(t_e, d_cutoff)
     dx = (x_1 - x_0)
-    dx_hat = exponential_smoothing(a_d, dx, dx)
+    # dx_hat = exponential_smoothing(a_d, dx, dx)
+    dx_hat = dx
 
     cutoff = min_cutoff + beta * abs(dx_hat)
     a = smoothing_factor(t_e, cutoff)
