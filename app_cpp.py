@@ -63,16 +63,17 @@ def getEvent(sid, data):
         prevLeft  = "None"
         prevRight = "None"
 
-        if data["left"]["render"]:
+        if data["left"]["render"] == True:
             prevLeft  = parse_KP(data["left"])
 
-        if data["right"]["render"]:
+        if data["right"]["render"] == True:
             prevRight = parse_KP(data["right"])
 
-        print("prevLKP", prevLeft)
+        print("prevLKP", prevLeft)  
         print("prevRKP", prevRight)
 
         prev_info = [prevLeft, prevRight]
+
         L_KP, R_KP, L_render, R_render = infer_and_estimation(img_parsed, (h, w), prev_info)
 
         result = {
@@ -97,8 +98,6 @@ def getEvent(sid, data):
                     "render" : False
                     },
             }
-
-    print("KPR", result['right'])
 
     sio.emit("recvTransform", result)
 
