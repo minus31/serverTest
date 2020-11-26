@@ -16,6 +16,8 @@ def filter(x_0, x_1, min_cutoff=0.1, beta=0.11, d_cutoff=1.0):
 
     cutoff = min_cutoff + beta * abs(dx_hat)
     a = smoothing_factor(cutoff)
+
+    print("alpha 값 : ", a)
     x_hat = exponential_smoothing(a, x_1, x_0)
 
     return x_hat

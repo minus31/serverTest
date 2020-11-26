@@ -69,8 +69,6 @@ def getEvent(sid, data):
         if data["right"]["render"] == True:
             prevRight = parse_KP(data["right"])
 
-        print("prevLKP", prevLeft)  
-        print("prevRKP", prevRight)
 
         prev_info = [prevLeft, prevRight]
 
