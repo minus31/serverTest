@@ -16,14 +16,12 @@ app = Flask(__name__)
 @sio.on('connect')
 def on_connect(sid, env):
     print('connected')
-    # print(f"#######Connetion : {sid} ############")
-    sio.emit('successConnect', {"data" : "send me camera data"})#, skip_sid=True)
+    sio.emit('successConnect', {"data" : "test_packet"})
 
 @sio.on('sendCameraInfo')
 def on_sendCameraInfo(sid, data):
     if data : 
         print('camera info ', data)
-
         camera = {
             'ax' : data["width"],
             'ay' : data["width"],
@@ -55,7 +53,6 @@ def getEvent(sid, data):
         nparr = np.fromstring(imgbyte, np.uint8)
         img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)[:,:,::-1]
         img_parsed = parse_image(img, shape=(224,224))
-
         # cv2.imwrite("./test.png", img)
         w   = data["width"]
         h   = data["height"]
@@ -98,7 +95,6 @@ def getEvent(sid, data):
             }
 
     sio.emit("recvTransform", result)
-
     print(" I ve sent result")
 
 if __name__ == '__main__':

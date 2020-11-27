@@ -1,5 +1,4 @@
 import math
-import numpy as np 
 
 def smoothing_factor(cutoff):
     r = 2 * math.pi * cutoff # keep t_e = 1 always
@@ -22,40 +21,40 @@ def filter(x_0, x_1, min_cutoff=0.1, beta=0.11, d_cutoff=1.0):
 
     return x_hat
 
-class OneEuroFilter:
-    def __init__(self, 
-                x0,
-                dx0=0.0, 
-                min_cutoff=1.0, 
-                beta=0.0,
-                d_cutoff=1.0):
-        """Initialize the one euro filter."""
-        # The parameters.
-        self.min_cutoff = min_cutoff
-        self.beta = beta
-        self.d_cutoff = d_cutoff
-        # Previous values.
-        self.x_prev  = x0
-        # self.dx_prev = dx0
-        # self.t_prev  = t0
+# class OneEuroFilter:
+#     def __init__(self, 
+#                 x0,
+#                 dx0=0.0, 
+#                 min_cutoff=1.0, 
+#                 beta=0.0,
+#                 d_cutoff=1.0):
+#         """Initialize the one euro filter."""
+#         # The parameters.
+#         self.min_cutoff = min_cutoff
+#         self.beta = beta
+#         self.d_cutoff = d_cutoff
+#         # Previous values.
+#         self.x_prev  = x0
+#         # self.dx_prev = dx0
+#         # self.t_prev  = t0
 
-    def __call__(self, x):
-        """Compute the filtered signal."""
-        t_e = 1
+#     def __call__(self, x):
+#         """Compute the filtered signal."""
+#         t_e = 1
 
-        # The filtered derivative of the signal.
-        a_d = smoothing_factor(t_e, self.d_cutoff)
-        dx = (x - self.x_prev) / t_e
-        dx_hat = exponential_smoothing(a_d, dx, dx)
+#         # The filtered derivative of the signal.
+#         a_d = smoothing_factor(t_e, self.d_cutoff)
+#         dx = (x - self.x_prev) / t_e
+#         dx_hat = exponential_smoothing(a_d, dx, dx)
 
-        # The filtered signal.
-        cutoff = self.min_cutoff + self.beta * abs(dx_hat)
-        a = smoothing_factor(t_e, cutoff)
-        x_hat = exponential_smoothing(a, x, self.x_prev)
+#         # The filtered signal.
+#         cutoff = self.min_cutoff + self.beta * abs(dx_hat)
+#         a = smoothing_factor(t_e, cutoff)
+#         x_hat = exponential_smoothing(a, x, self.x_prev)
 
-        # Memorize the previous values.
-        self.x_prev = x_hat
-        # self.dx_prev = dx_hat
-        # self.t_prev = t
+#         # Memorize the previous values.
+#         self.x_prev = x_hat
+#         # self.dx_prev = dx_hat
+#         # self.t_prev = t
 
-        return x_hat
+#         return x_hat
