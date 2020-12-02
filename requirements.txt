@@ -1,8 +1,6 @@
-# tensorflow-gpu
 numpy
 opencv-python
 flask
-python-socketio
-python-dotenv
+python-socketio==4.6.0
 eventlet
 Cython
