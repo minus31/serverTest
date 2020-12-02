@@ -8,7 +8,42 @@ import cv2
 from cpp_infer import infer_and_estimation
 import time
 import math
-from dl_utils import parse_image
+
+import numpy as np 
+import cv2
+import base64
+
+def resize(img, shape):
+	return cv2.resize(img, shape)
+
+def scale(img):
+	return (img / 127.5)  - 1.
+
+def make_square_with_padding(img):
+    if len(img.shape) == 3:
+        h, w, c = img.shape
+    else:
+        raise ("Please Input a Color Image")
+    diff = h - w
+    if diff > 0:
+        pad = np.zeros(shape=(h, diff, c), dtype=np.uint8)
+        img = np.concatenate((img, pad), axis=1)
+    else :
+        pad = np.zeros(shape=(np.abs(diff), w, c), dtype=np.uint8)
+        img = np.concatenate((img, pad), axis=0)
+    return img
+
+def image_preprocessing(img, input_shape=None):
+	img = make_square_with_padding(img)
+	if input_shape:
+		h, w = input_shape
+		img = resize(img, (w, h))
+	img = scale(img)
+	return img
+    
+def parse_image(img, shape): 
+    img = image_preprocessing(img, shape)
+    return img
 
 sio = socketio.Server()
 app = Flask(__name__)
