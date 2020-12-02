@@ -1,6 +1,7 @@
 numpy
 opencv-python
 flask
-python-socketio==4.6.0
+flask-socketio==1.0
+# python-socketio==4.6.0
 eventlet
 Cython
