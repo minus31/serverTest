@@ -9,10 +9,6 @@ from cpp_infer import infer_and_estimation
 import time
 import math
 
-import numpy as np 
-import cv2
-import base64
-
 def resize(img, shape):
 	return cv2.resize(img, shape)
 
